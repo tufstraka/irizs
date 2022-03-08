@@ -3,7 +3,7 @@ const w = 1000;
 const h = 1000;
 
 document.addEventListener('DOMContentLoaded',function(){
-    
+
     document.getElementById('getMessage').onclick= () => {
       
         fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json')
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded',function(){
             let country_data = data.data
             
             let html = "";
-            //console.log(country_data)
+            console.log(country_data)
             
         
             
@@ -41,15 +41,17 @@ document.addEventListener('DOMContentLoaded',function(){
 
                     // to work on visualization later
                     svg.selectAll("rect")
-                        .data(country_data[1])
+                        .data(country_data)
                         .enter()
                         .append("rect")
-                        .attr("class" , "bar")
-                        .attr("x", (d, i) =>i*30)
-                        .attr("y", (d, i) =>  d)
-                        .attr("width", 800)
-                        .attr("height", 800)
+                        .attr("x", function(d, i){ return i*6})
+                        .attr("y", (d , i) => h - d[1])
+                        .attr("width", 5)
+                        .attr("height", function( d , i) {return d[1]} )
                         .attr("fill", "#B4D8D8")
+                        .attr("class","bar")
+                        .append("title")
+                        .text((d) => d[1])
 
                     svg.append("g")
                         .attr("transform", "translate(0," + (h - padding) + ")")
