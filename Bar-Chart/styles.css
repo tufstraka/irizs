@@ -2,9 +2,9 @@
     text-align: center;
     
 }
-.bar{
-    margin: 10px;
-    color:aqua;
+.bar:hover{
+    opacity: 60%;
+    fill:green;
 }
 #main{
     text-align: center;
