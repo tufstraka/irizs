@@ -9,20 +9,20 @@ document.addEventListener('DOMContentLoaded',function(){
         fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json')
         .then(response => response.json())
         .then(data => {
-            let country_data = data.data
+            let gdp_data = data.data
             
             let html = "";
-            console.log(country_data)
+            console.log(gdp_data)
             
         
             
             //d3 visualisation
-            const min_date = d3.min(country_data, (d) => d[0])
-            const max_date = d3.max(country_data, (d) => d[0])
+            const min_date = d3.min(gdp_data, (d) => d[0])
+            const max_date = d3.max(gdp_data, (d) => d[0])
             console.log(min_date)
             console.log(max_date)
-            const min_gdp_val = d3.min(country_data, (d) => d[1]);
-            const max_gdp_val = d3.max(country_data, (d) => d[1])
+            const min_gdp_val = d3.min(gdp_data, (d) => d[1]);
+            const max_gdp_val = d3.max(gdp_data, (d) => d[1])
             console.log(min_gdp_val)
             console.log(max_gdp_val)
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
                     // to work on visualization later
                     svg.selectAll("rect")
-                        .data(country_data)
+                        .data(gdp_data)
                         .enter()
                         .append("rect")
                         .attr("x", function(d, i){ return i*6})
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded',function(){
                         .call(yaxis)
 
 
-            country_data.forEach(function(val) {
+            gdp_data.forEach(function(val) {
 
                 const keys = Object.keys(val);
                 html += "<div class = 'data'>";
