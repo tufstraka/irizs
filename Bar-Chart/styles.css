@@ -3,8 +3,8 @@
     
 }
 .bar:hover{
-    opacity: 60%;
-    fill:green;
+    opacity: 30%;
+    fill:blue;
 }
 #main{
     text-align: center;
