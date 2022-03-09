@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded',function(){
                         .range([h - padding, padding]);
             const xscale = d3.scaleLinear()
                         .domain([0 , max_date])
-                        .range([padding , w - padding]);            
+                        .range([padding , w - padding]);
+            console.log( xscale(5))                        
             const xaxis = d3.axisBottom(xscale)
             const yaxis = d3.axisLeft(yscale)            
             const svg = d3.select("section")
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded',function(){
                         .attr("x", function(d, i){ return i*6})
                         .attr("y", (d , i) => h - d[1])
                         .attr("width", 5)
-                        .attr("height", function( d , i) {return d[1]} )
+                        .attr("height", function( d , i) {return d[1]}) 
                         .attr("fill", "#B4D8D8")
                         .attr("class","bar")
                         .append("title")
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
                     svg.append("g")
                         .attr("transform", "translate(0," + (h - padding) + ")")
-                        .call(xaxis.tickFormat(d3.timeFormat("%Y-%m-%d")));
+                        .call(xaxis);
                     svg.append("g")
                         .attr("transform", "translate(" + padding + ",0)")
                         .call(yaxis)
