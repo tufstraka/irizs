@@ -2,6 +2,9 @@
     text-align: center;
     
 }
+.bar{
+    fill:#B4D8D8;
+}
 .bar:hover{
     opacity: 30%;
     fill:blue;
