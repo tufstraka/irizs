@@ -1,7 +1,8 @@
-const padding = 50;
+const padding = 45;
 const barWidth = 3;
-const w = 1000;
+const w = 1100;
 const h = 1000;
+
 
 document.addEventListener('DOMContentLoaded',function(){
 
@@ -14,8 +15,17 @@ document.addEventListener('DOMContentLoaded',function(){
             let years = data.data.map((item) => new Date(item[0]));
             let scaledGDP = [];
 
+            let tooltip = d3.select('section')
+                .append('div')
+                .attr('id' , 'tooltip')
+                .style('opacity' , 0)
+                
+            let overlay = d3.select('section')
+                .append('div')
+                .attr('class', 'overlay')
+                .style('opacity', 0);                
+
             
-            let html = "";
 
             //d3 visualisation
             const min_date = d3.min(years)
@@ -29,7 +39,7 @@ document.addEventListener('DOMContentLoaded',function(){
                         .domain([0, max_gdp_val])
                         .range([h - padding, padding]);
 
-            scaledGDP = gdp_data.map((item) => yscale(item))
+            scaledGDP = gdp_data.map((item) => (yscale(item) - padding))
                        
            
             const xscale = d3.scaleTime()
@@ -50,15 +60,18 @@ document.addEventListener('DOMContentLoaded',function(){
                         .enter()
                         .append("rect")
                         .attr("x", function(d, i){ return xscale(years[i])})
-                        .attr("y", (d , i) => h - (padding + d))
+                        .attr("y", (d) => {
+                            return h - (padding + d);
+                        })
                         .attr("width", barWidth)
                         .attr("height", function( d , i) {return d})
                         .attr("data-date", (d , i) => data.data[i][0])
                         .attr("data-gdp", (d , i) => data.data[i][1])
                         .attr("class","bar")
                         .attr("index", (d , i) => i)
-                        .append("title")
-                        .text((d) => d)
+                        //.append("title")
+                        //.text()
+                        //.on('mouseover' , )
 
                     svg.append("g")
                         .attr("transform", "translate(0," + (h - padding) + ")")
