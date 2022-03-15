@@ -1,6 +1,6 @@
 const padding = 45;
 const barWidth = 3;
-const w = 1100;
+const w = 1000;
 const h = 1000;
 
 
@@ -24,10 +24,7 @@ document.addEventListener('DOMContentLoaded',function(){
                 .append('div')
                 .attr('class', 'overlay')
                 .style('opacity', 0);
-                //.stuff()   
                 
-                //another comma
-                .blublbu()
 
             
 
@@ -39,11 +36,15 @@ document.addEventListener('DOMContentLoaded',function(){
             const max_gdp_val = d3.max(gdp_data)
             
 
-            const yscale = d3.scaleLinear()
-                        .domain([0, max_gdp_val])
-                        .range([h - padding, padding]);
+            const linearScale = d3.scaleLinear()
+                        .domain([0 , max_gdp_val])
+                        .range([0 , h - padding ]);
 
-            scaledGDP = gdp_data.map((item) => (yscale(item) - padding))
+            scaledGDP = gdp_data.map((item) => (linearScale(item)));
+
+            const yscale = d3.scaleLinear()
+                        .domain([0 , max_gdp_val])
+                        .range([h - padding , 0]);
                        
            
             const xscale = d3.scaleTime()
@@ -55,10 +56,10 @@ document.addEventListener('DOMContentLoaded',function(){
             const yaxis = d3.axisLeft(yscale)            
             const svg = d3.select("section")
                         .append("svg")
-                        .attr("width", w)
-                        .attr("height", h);
+                        .attr("width", w )
+                        .attr("height", h );
 
-                    // to work on visualization later
+                    
                     svg.selectAll("rect")
                         .data(scaledGDP)
                         .enter()
@@ -75,7 +76,35 @@ document.addEventListener('DOMContentLoaded',function(){
                         .attr("index", (d , i) => i)
                         //.append("title")
                         //.text()
-                        //.on('mouseover' , )
+                        // .on('mouseover' ,( e , d) => {
+                        //             overlay.transition()
+                        //                     .duration(0)
+                        //                     .style('height', d + 'px')
+                        //                     .style('width', barWidth + 'px')
+                        //                     .style('opacity', 0.9)
+                        //                     .style('left', i * barWidth + 0 + 'px')
+                        //                     .style('top', height - d + 'px')
+                        //                     .style('transform', 'translateX(60px)');
+                        //             tooltip.transition().duration(200).style('opacity', 0.9);
+                        //                     tooltip
+                        //                       .html(
+                        //                         years[i] +
+                        //                           '<br>' +
+                        //                           '$' +
+                        //                           GDP[i].toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') +
+                        //                           ' Billion'
+                        //                       )
+                        //                       .attr('data-date', data.data[i][0])
+                        //                       .style('left', i * barWidth + 30 + 'px')
+                        //                       .style('top', height - 100 + 'px')
+                        //                       .style('transform', 'translateX(60px)');
+                        //                             })
+                        // .on('mouseout', () => {
+
+                        //     tooltip.transition().duration(200).style('opacity', 0);
+                        //     overlay.transition().duration(200).style('opacity', 0);
+                            
+                        // })
 
                     svg.append("g")
                         .attr("transform", "translate(0," + (h - padding) + ")")
