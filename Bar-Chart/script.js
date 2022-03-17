@@ -4,6 +4,8 @@ const w = 1000;
 const h = 1000;
 
 
+
+
 document.addEventListener('DOMContentLoaded',function(){
 
     document.getElementById('getMessage').onclick= () => {
@@ -24,6 +26,8 @@ document.addEventListener('DOMContentLoaded',function(){
                 .append('div')
                 .attr('class', 'overlay')
                 .style('opacity', 0);
+
+            
                 
 
             
@@ -32,7 +36,7 @@ document.addEventListener('DOMContentLoaded',function(){
             const min_date = d3.min(years)
             const max_date = d3.max(years)
             
-            const min_gdp_val = d3.min(gdp_data);
+            //const min_gdp_val = d3.min(gdp_data);
             const max_gdp_val = d3.max(gdp_data)
             
 
@@ -44,12 +48,14 @@ document.addEventListener('DOMContentLoaded',function(){
 
             const yscale = d3.scaleLinear()
                         .domain([0 , max_gdp_val])
-                        .range([h - padding , 0]);
+                        .range([h - padding , 0])
+                        
                        
            
             const xscale = d3.scaleTime()
                         .domain([min_date , max_date])
-                        .range([padding , w - padding]);
+                        .range([padding , w - padding])
+                        
 
                                     
             const xaxis = d3.axisBottom(xscale)
@@ -69,42 +75,43 @@ document.addEventListener('DOMContentLoaded',function(){
                             return h - (padding + d);
                         })
                         .attr("width", barWidth)
-                        .attr("height", function( d , i) {return d})
-                        .attr("data-date", (d , i) => data.data[i][0])
-                        .attr("data-gdp", (d , i) => data.data[i][1])
-                        .attr("class","bar")
                         .attr("index", (d , i) => i)
-                        //.append("title")
-                        //.text()
-                        // .on('mouseover' ,( e , d) => {
-                        //             overlay.transition()
-                        //                     .duration(0)
-                        //                     .style('height', d + 'px')
-                        //                     .style('width', barWidth + 'px')
-                        //                     .style('opacity', 0.9)
-                        //                     .style('left', i * barWidth + 0 + 'px')
-                        //                     .style('top', height - d + 'px')
-                        //                     .style('transform', 'translateX(60px)');
-                        //             tooltip.transition().duration(200).style('opacity', 0.9);
-                        //                     tooltip
-                        //                       .html(
-                        //                         years[i] +
-                        //                           '<br>' +
-                        //                           '$' +
-                        //                           GDP[i].toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') +
-                        //                           ' Billion'
-                        //                       )
-                        //                       .attr('data-date', data.data[i][0])
-                        //                       .style('left', i * barWidth + 30 + 'px')
-                        //                       .style('top', height - 100 + 'px')
-                        //                       .style('transform', 'translateX(60px)');
-                        //                             })
-                        // .on('mouseout', () => {
+                        .attr("height", function( d , i) {return d})
+                        .attr("data-date", function (d , i){ return years[i]})
+                        .attr("data-gdp", (d , i) => i)
+                        .attr("class","bar")
+                        .on('mouseover' ,( e , d) => {
+                                    let bar = document.querySelector('.bar')
+                                    let i = bar.getAttribute('index');
+                                    console.log(bar)
+                                    overlay.transition()
+                                            .duration(0)
+                                            .style('height', d + 'px')
+                                            .style('width', barWidth + 'px')
+                                            .style('opacity', 0.9)
+                                            .style('left', i * barWidth + 0 + 'px')
+                                            .style('top', h - d + 'px')
+                                            .style('transform', 'translateX(60px)');
+                                    tooltip.transition()
+                                            .duration(200)
+                                            .style('opacity', 0.9);
+                                    tooltip.html(
+                                               
+                                                  gdp_data[i].toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') +
+                                                  ' Billion'
+                                              )
+                                              .attr('data-date', data.data[i][0])
+                                              .style('left', i * barWidth + 30 + 'px')
+                                              .style('top', h - 300 + 'px')
+                                              .style('transform', 'translateX(60px)');
+                                                    })
+                        .on('mouseout', () => {
 
-                        //     tooltip.transition().duration(200).style('opacity', 0);
-                        //     overlay.transition().duration(200).style('opacity', 0);
+                            tooltip.transition().duration(200).style('opacity', 0);
+                            overlay.transition().duration(200).style('opacity', 0);
                             
-                        // })
+                        })
+                    
 
                     svg.append("g")
                         .attr("transform", "translate(0," + (h - padding) + ")")
